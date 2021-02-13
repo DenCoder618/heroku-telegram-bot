@@ -51,7 +51,7 @@ def potato_parser():
   print(page_login)
   
   page=c.get(alan_link)
-  soup = bs.BeautifulSoup(page.text)
+  soup = bs.BeautifulSoup(page.text, features="html.parser")
   main = soup.find('main', {'class': 'body-profile centered'})
   post_data = main.find_all('div')[0].find_all('a')
   comm_data = main.find_all('div')[1].find_all('a')
@@ -67,7 +67,7 @@ def format_out():
   output = "POSTS:\n"
   for p in posts:
     output += "[" + p.date + "]\n(" + p.author + ') - ' + p.text + "\n\n"
-  output += "COMMENTS\n"
+  output += "COMMENTS:\n"
   for c in comments:
     output += "[" + c.date + "]\n(" + p.author + ') - ' + p.text + "\n\n"
   return output
