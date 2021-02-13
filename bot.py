@@ -69,7 +69,7 @@ def format_out():
     output += "[" + p.date + "]\n(" + p.author + ') - ' + p.text + "\n\n"
   output += "COMMENTS:\n"
   for c in comments:
-    output += "[" + c.date + "]\n(" + p.author + ') - ' + p.text + "\n\n"
+    output += "[" + c.date + "]\n(" + c.author + ') - ' + c.text + "\n\n"
   return output
 
 ##### BOT #####
