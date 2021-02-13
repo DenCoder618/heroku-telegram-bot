@@ -83,9 +83,43 @@ def start_handler(message):
 
 @bot.message_handler(commands=['posts'])
 def start_handler(message):
-  potato_parser()
+    c = requests.session()
+  initial = c.get(login_link)
+  login_data = {"log": login, "pwd": password,
+                "rememberme": "forever",
+                "redirect_to": main_link,
+                "redirect_to_automatic": "1"}
+  
+  page_login = c.post(login_link, data=login_data)
+  print(page_login)
+  
+  page=c.get(alan_link)
+  soup = bs.BeautifulSoup(page.text, features="html.parser")
+  main = soup.find('main', {'class': 'body-profile centered'})
+  post_data = main.find_all('div')[0].find_all('a')
+  comm_data = main.find_all('div')[1].find_all('a')
+  
+  posts = []
+  comments = []
+  for p in post_data:
+    posts.append(Post(p))
+  for c in comm_data:
+    comments.append(Comment(c, '#0'))
+    
+  print(posts)
+  
+  #potato_parser()
   chat_id = message.chat.id
-  msg = bot.send_message(chat_id, format_out())
-  msg = bot.send_message(chat_id, posts[0].text)
+  
+  output = "POSTS:\n"
+  for p in posts:
+    output = output + "[" + p.date + "]\n(" + p.author + ') - ' + p.text + "\n\n"
+  output = output + "COMMENTS:\n"
+  for c in comments:
+    output = output + "[" + c.date + "]\n(" + c.author + ') - ' + c.text + "\n\n"
+  print(output)
+  
+  msg = bot.send_message(chat_id, output)
+  #msg = bot.send_message(chat_id, posts[0].text)
 
 bot.polling(none_stop=True)
