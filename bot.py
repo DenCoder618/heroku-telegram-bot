@@ -86,5 +86,6 @@ def start_handler(message):
   potato_parser()
   chat_id = message.chat.id
   msg = bot.send_message(chat_id, format_out())
+  msg = bot.send_message(chat_id, posts[0].text)
 
 bot.polling(none_stop=True)
