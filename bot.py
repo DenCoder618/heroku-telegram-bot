@@ -40,7 +40,7 @@ class Comment:
     self.responce = data.find_all('p')[0].text[16:-1]
     self.date = data.find_all('p')[1].text[14:]
 
-def potato_parser:
+def potato_parser():
 	c = requests.session()
 	initial = c.get(login_link)
 	login_data = {"log": login, "pwd": password,
@@ -64,7 +64,7 @@ def potato_parser:
 	for c in comm_data:
 	  comments.append(Comment(c, '#0'))
 
-def format_out:
+def format_out():
 	output = "POSTS:\n"
 	for p in posts:
 		output += "[" + p.date + "]\n(" + p.author + ') - ' + p.text + "\n\n"
