@@ -1,3 +1,5 @@
+apscheduler==3.0.1
+
 # List of required packages (Dependencies)
 redis
 
