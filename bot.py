@@ -4,7 +4,6 @@ import requests
 import bs4 as bs
 import telebot
 import bs4
-from Task import Task
 from telebot import types
 
 token = os.environ['TELEGRAM_TOKEN']
@@ -76,7 +75,6 @@ def format_out():
 ##### BOT #####
 
 bot = telebot.TeleBot(token)
-task = Task()
 
 @bot.message_handler(commands=['start', 'go'])
 def start_handler(message):
