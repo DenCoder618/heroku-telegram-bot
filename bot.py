@@ -76,24 +76,15 @@ def format_out():
 
 bot = telebot.TeleBot(token)
 
-@bot.message_handler(commands=['start', 'go'])
+@bot.message_handler(commands=['start'])
 def start_handler(message):
-  #if not task.isRunning:
   chat_id = message.chat.id
-  msg = bot.send_message(chat_id, 'Hello, potato!') #, reply_markup=start_markup)
-  bot.register_next_step_handler(msg, askSource)
-  #task.isRunning = True
+  msg = bot.send_message(chat_id, "Hello, potato!")
 
-def askSource(message):
+@bot.message_handler(commands=['posts'])
+def start_handler(message):
+	potato_parser()
   chat_id = message.chat.id
-  text = message.text()
-  if text == 'w41k3r' :
-  	potato_parser();
-  	msg = bot.send_message(chat_id, format_out()) #, reply_markup=start_markup)
-  	bot.register_next_step_handler(msg, askSource)
-  else:
-    msg = bot.send_message(chat_id, 'potato..?') #, reply_markup=start_markup)
-    bot.register_next_step_handler(msg, askSource)
-    return
+  msg = bot.send_message(chat_id, format_out())
 
 bot.polling(none_stop=True)
