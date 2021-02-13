@@ -4,7 +4,7 @@ import requests
 import bs4 as bs
 import telebot
 import bs4
-from telebot import types
+#from telebot import types
 
 token = os.environ['TELEGRAM_TOKEN']
 login = os.environ['WALKER_LOGIN']
@@ -17,10 +17,10 @@ alan_link = "https://w41k3r.com/walkers/?w_id=0"
 posts = []
 comments = []
 
-start_markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-start_markup_btn1 = types.KeyboardButton('w41k3r')
+#start_markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+#start_markup_btn1 = types.KeyboardButton('w41k3r')
 #start_markup_btn2 = types.KeyboardButton('Comments')
-start_markup.add(start_markup_btn1)
+#start_markup.add(start_markup_btn1)
 
 class Post:
   def __init__(self, data):
@@ -80,7 +80,7 @@ bot = telebot.TeleBot(token)
 def start_handler(message):
   #if not task.isRunning:
   chat_id = message.chat.id
-  msg = bot.send_message(chat_id, 'Hello, potato!', reply_markup=start_markup)
+  msg = bot.send_message(chat_id, 'Hello, potato!') #, reply_markup=start_markup)
   bot.register_next_step_handler(msg, askSource)
   #task.isRunning = True
 
@@ -89,10 +89,10 @@ def askSource(message):
   text = message.text()
   if text == 'w41k3r' :
   	potato_parser();
-  	msg = bot.send_message(chat_id, format_out(), reply_markup=start_markup)
+  	msg = bot.send_message(chat_id, format_out()) #, reply_markup=start_markup)
   	bot.register_next_step_handler(msg, askSource)
   else:
-    msg = bot.send_message(chat_id, 'potato..?', reply_markup=start_markup)
+    msg = bot.send_message(chat_id, 'potato..?') #, reply_markup=start_markup)
     bot.register_next_step_handler(msg, askSource)
     return
 
