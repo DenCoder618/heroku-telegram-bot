@@ -83,7 +83,7 @@ def start_handler(message):
 
 @bot.message_handler(commands=['posts'])
 def start_handler(message):
-    c = requests.session()
+  c = requests.session()
   initial = c.get(login_link)
   login_data = {"log": login, "pwd": password,
                 "rememberme": "forever",
