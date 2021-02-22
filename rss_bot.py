@@ -4,8 +4,6 @@ import requests
 import bs4 as bs
 import telebot
 import feedparser
-from datetime import timedelta, datetime
-from dateutil import parser
 from time import sleep
 import hashlib as h
 
