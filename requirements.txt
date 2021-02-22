@@ -2,3 +2,5 @@ telebot
 requests
 bs4
 PyTelegramBotAPI
+feedparser
+hashlib
