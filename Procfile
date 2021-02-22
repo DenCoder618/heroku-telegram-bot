@@ -1,1 +1,1 @@
-bot: python3 bot.py
+bot: python3 rss_bot.py
