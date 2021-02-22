@@ -111,9 +111,9 @@ def parse_rss(link):
         if not hash in old_hashes:
             #print(entry.title)
             p_link = entry['links'][0]['href']
-            wid, title, post = parse_post(p_link)
+            #wid, title, post = parse_post(p_link)
             #print(wid, title, post)
-            mess = "Post by #" + wid + " - *" + title + "*\n" + post + "\n" + p_link
+            mess = "*" + entry.title + "*\n\n" + entry.summary + "\n\n" + p_link
             #print(mess)
             send_message(mess)
     #print(hashes)
