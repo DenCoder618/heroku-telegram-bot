@@ -28,7 +28,11 @@ def parse_rss(link):
         if not hash in old_hashes:
             p_link = entry['links'][0]['href']
             c = requests.session()
-            login_data = {"log": login, "pwd": password, "rememberme": "forever", "redirect_to": main_link, "redirect_to_automatic": "1"} page_login = c.post(login_link, data=login_data)
+            login_data = {"log": login,
+              "pwd": password,
+              "rememberme": "forever",
+              "redirect_to": main_link,
+              "redirect_to_automatic": "1"}
             p = c.get(link)
             s = bs.BeautifulSoup(p.content, features="html.parser").find("main")
             title = s.find("h1").text
