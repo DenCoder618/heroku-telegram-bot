@@ -48,11 +48,10 @@ def parse_rss(link):
               "pwd": password,
               "rememberme": "forever",
               "redirect_to": main_link,
-              "redirect_to_automatic": "1"
-              }
+              "redirect_to_automatic": "1"}
             page_login = c.post(login_link, data=login_data)
-            print(page_login)
-            p = c.get(link, headers=random_headers())
+
+            p = c.get(p_link, headers=random_headers())
             s = bs.BeautifulSoup(p.content, features="html.parser").find("main")
             title = s.find("h1").text
             wid = s.find("span", {'class': 'wid'}).text
