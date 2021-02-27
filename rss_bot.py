@@ -5,6 +5,21 @@ import telebot
 import feedparser
 from time import sleep
 import hashlib as h
+from random import choice
+
+desktop_agents = ['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
+                 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
+                 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
+                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/602.2.14 (KHTML, like Gecko) Version/10.0.1 Safari/602.2.14',
+                 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
+                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36',
+                 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36',
+                 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36',
+                 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
+                 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0']
+
+def random_headers():
+    return {'User-Agent': choice(desktop_agents),'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'}
 
 token = os.environ['TELEGRAM_TOKEN']
 channel = os.environ['CHANNEL_ID']
@@ -27,22 +42,28 @@ def parse_rss(link):
         hashes.append(hash)
         if not hash in old_hashes:
             p_link = entry['links'][0]['href']
+
             c = requests.session()
             login_data = {"log": login,
               "pwd": password,
               "rememberme": "forever",
               "redirect_to": main_link,
-              "redirect_to_automatic": "1"}
-            p = c.get(link)
+              "redirect_to_automatic": "1"
+              }
+            page_login = c.post(login_link, data=login_data)
+            print(page_login)
+            p = c.get(link, headers=random_headers())
             s = bs.BeautifulSoup(p.content, features="html.parser").find("main")
             title = s.find("h1").text
             wid = s.find("span", {'class': 'wid'}).text
             t = s.find("article").text
+
             while "\n\n" in t: t = t.replace("\n\n", "\n")
             if t.startswith("\n"): t = t[1:]
             if t.endswith("\n"): t = t[:-1]
-            mess = "Post by #" + wid + "\n" + title + "\n\n" + t + "\n\n" + p_link
+            mess = "Post by #" + wid + "\n*" + title + "*\n\n" + t + "\n\n" + p_link
             send_message(mess)
+
     old_hashes = hashes
 
 def send_message(message):
