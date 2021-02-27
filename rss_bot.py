@@ -37,12 +37,11 @@ def parse_rss(link):
     feed = feedparser.parse(link)
     hashes = []
     for entry in feed.entries:
-        #print(str(entry.link))
         hash = h.md5(entry.link.encode('utf-8')).hexdigest()
         hashes.append(hash)
         if not hash in old_hashes:
             p_link = entry['links'][0]['href']
-
+            # логинимся
             c = requests.session()
             login_data = {"log": login,
               "pwd": password,
@@ -50,18 +49,22 @@ def parse_rss(link):
               "redirect_to": main_link,
               "redirect_to_automatic": "1"}
             page_login = c.post(login_link, data=login_data)
-
+            # получаем данные
             p = c.get(p_link, headers=random_headers())
-            s = bs.BeautifulSoup(p.content, features="html.parser").find("main")
-            title = s.find("h1").text
-            wid = s.find("span", {'class': 'wid'}).text
-            t = s.find("article").text
-
-            while "\n\n" in t: t = t.replace("\n\n", "\n")
-            if t.startswith("\n"): t = t[1:]
-            if t.endswith("\n"): t = t[:-1]
-            mess = "Post by #" + wid + "\n*" + title + "*\n\n" + t + "\n\n" + p_link
-            send_message(mess)
+            temp = bs.BeautifulSoup(p.content, features="html.parser")
+            print(temp)
+            print(temp.find("main"))
+            
+            #s = bs.BeautifulSoup(p.content, features="html.parser").find("main")
+            #title = s.find("h1").text
+            #wid = s.find("span", {'class': 'wid'}).text
+            #t = s.find("article").text
+#
+            #while "\n\n" in t: t = t.replace("\n\n", "\n")
+            #if t.startswith("\n"): t = t[1:]
+            #if t.endswith("\n"): t = t[:-1]
+            #mess = "Post by #" + wid + "\n*" + title + "*\n\n" + t + "\n\n" + p_link
+            #send_message(mess)
 
     old_hashes = hashes
 
