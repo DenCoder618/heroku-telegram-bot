@@ -52,9 +52,12 @@ def parse_rss(link):
             # получаем данные
             p = c.get(p_link, headers=random_headers())
             temp = bs.BeautifulSoup(p.content, features="html.parser")
-            print(temp)
-            print(temp.find("main"))
-            
+            text_file = open("parse.txt", "w")
+            text_file.write(temp.find("main"))
+            msg = bot.send_document(channel, text_file)
+            #print(temp)
+            #print(temp.find("main"))
+
             #s = bs.BeautifulSoup(p.content, features="html.parser").find("main")
             #title = s.find("h1").text
             #wid = s.find("span", {'class': 'wid'}).text
