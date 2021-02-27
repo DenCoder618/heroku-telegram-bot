@@ -1,1 +1,1 @@
-bot: python3 rss_bot.py
+bot: python3 login_test.py
