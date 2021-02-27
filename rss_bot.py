@@ -41,6 +41,14 @@ def parse_rss(link):
         hashes.append(hash)
         if not hash in old_hashes:
             p_link = entry['links'][0]['href']
+            agent
+            c = requests.session()
+            login_data = {"log": login,
+                          "pwd": password,
+                          "rememberme": "forever",
+                          "redirect_to": p_link,
+                          "redirect_to_automatic": "1"}
+            page_login = c.post(login_link, data=login_data)
             # получаем данные
             p = c.get(p_link, headers=random_headers())
             temp = bs.BeautifulSoup(p.content, features="html.parser")
@@ -70,17 +78,8 @@ def send_message(message):
     msg = bot.send_message(channel, message, parse_mode='Markdown', disable_web_page_preview=True)
 
 if __name__ == '__main__':
-    global c
-    c = requests.session()
-    login_data = {"log": login,
-                  "pwd": password,
-                  "rememberme": "forever",
-                  "redirect_to": main_link,
-                  "redirect_to_automatic": "1"}
-    page_login = c.post(login_link, data=login_data)
     bot = telebot.TeleBot(token)
     old_hashes = [h.md5("lol".encode('utf-8')).hexdigest()]
-    sleep(3)
     while True:
         parse_rss(rss_link)
         sleep(2)
