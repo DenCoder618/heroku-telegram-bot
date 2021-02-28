@@ -40,22 +40,39 @@ def send_file(code):
     msg = bot.send_document(channel, text_file)
     text_file.close()
 
+##################################
+## with requests.Session() as s:
+##     headers1 = {'Cookie':'wordpress_test_cookie=WP Cookie check' }
+##     datas={
+##         'log':username, 'pwd':password, 'wp-submit':'Log In',
+##         'redirect_to':wp_admin, 'testcookie':'1'
+##     }
+##     s.post(wp_login, headers=headers1, data=datas)
+##     resp = s.get(wp_admin)
+##     print(resp.text)
+##################################
+
 def parse_rss(p_link):
-            c = requests.session()
-            login_data = {"log": login,
-                          "pwd": password,
-                          "rememberme": "forever",
-                          "redirect_to": p_link,
-                          "redirect_to_automatic": "1"}
+    with requests.session() as c:
+        head1 = {'Cookie': 'wordpress_test_cookie=WP Cookie check'}
+        login_data = {"log": login,
+                      "pwd": password,
+                      'wp-submit': 'Log In',
+                      'redirect_to': p_link,
+                      'testcookie': '1'}
+                      #"rememberme": "forever",
+                      #"redirect_to": p_link,
+                      #"redirect_to_automatic": "1"}
 
-            head = random_headers()
-            page_login = c.post(login_link, data=login_data, headers=head)
-            p = c.get(p_link, headers=head)
-            temp = bs.BeautifulSoup(p.content, features="html.parser")
-            send_file(str(temp.find("main").encode("utf-8")))
+        c.post(login_link, headers=head1, data=login_data)
+        #head = random_headers()
+        #page_login = c.post(login_link, data=login_data, headers=head)
+        p = c.get(p_link) #, headers=head)
+        temp = bs.BeautifulSoup(p.content, features="html.parser")
+        send_file(str(temp.find("main").encode("utf-8")))
 
-            #print(temp)
-            #print(temp.find("main"))
+        #print(temp)
+        #print(temp.find("main"))
 
 def send_message(message):
     msg = bot.send_message(channel, message, parse_mode='Markdown', disable_web_page_preview=True)
