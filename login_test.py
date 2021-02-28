@@ -38,13 +38,13 @@ def parse_rss(p_link):
                       'testcookie': '1',
                       "rememberme": "forever"}
 
-        c.post(login_link, headers=head, data=login_data)
+        log = c.post(login_link, headers=head, data=login_data)
         print(c.headers)
-        print(c.cookies)
+        print(log.cookies)
         #head = random_headers()
         #page_login = c.post(login_link, data=login_data, headers=head)
 
-        p = c.get(p_link, headers=head, cookies=c.cookies) #, headers=head)
+        p = c.get(p_link, headers=head, cookies=log.cookies) #, headers=head)
         temp = bs.BeautifulSoup(p.content, features="html.parser")
         send_file(str(temp.find("main").encode("utf-8")))
 
