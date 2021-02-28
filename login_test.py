@@ -28,22 +28,23 @@ def send_file(code):
 
 def parse_rss(p_link):
     with requests.session() as c:
-        head1 = {'Cookie': 'wordpress_test_cookie=WP Cookie check'}
+        head = {"accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+                #"cookie": "wordpress_test_cookie=WP Cookie check",
+                "user-agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Mobile Safari/537.36"}
         login_data = {"log": login,
                       "pwd": password,
                       'wp-submit': 'Log In',
-                      'redirect_to': p_link,
-                      'testcookie': '1'}
-                      #"rememberme": "forever",
-                      #"redirect_to": p_link,
-                      #"redirect_to_automatic": "1"}
+                      'redirect_to': "https://w41k3r.com/wp-admin/",
+                      'testcookie': '1',
+                      "rememberme": "forever"}
 
-        c.post(login_link, headers=head1, data=login_data)
+        c.post(login_link, headers=head, data=login_data)
+        print(c.headers)
         print(c.cookies)
         #head = random_headers()
         #page_login = c.post(login_link, data=login_data, headers=head)
 
-        p = c.get(p_link, cookies=c.cookies) #, headers=head)
+        p = c.get(p_link, headers=head, cookies=c.cookies) #, headers=head)
         temp = bs.BeautifulSoup(p.content, features="html.parser")
         send_file(str(temp.find("main").encode("utf-8")))
 
